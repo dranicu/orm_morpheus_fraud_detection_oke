@@ -1,0 +1,13 @@
+image:
+  repository: fra.ocir.io/ocisateam/fraud-detection-app
+  tag: latest
+  pullPolicy: IfNotPresent
+ports:
+  http: 8888
+resources:
+  requests:
+    memory: "10Gi"
+    gpu: "1"
+  limits:
+    memory: "20Gi"
+    gpu: "1"

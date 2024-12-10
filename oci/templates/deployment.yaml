@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: fraud-detection-app
+    release: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fraud-detection-app
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: fraud-detection-app
+        release: {{ .Release.Name }}
+    spec:
+      hostNetwork: true
+      containers:
+      - name: fraud-test
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+          - containerPort: {{ .Values.ports.http }}
+            name: http
+        resources:
+          requests:
+            nvidia.com/gpu: {{ .Values.resources.requests.gpu }}
+            memory: {{ .Values.resources.requests.memory }}
+          limits:
+            nvidia.com/gpu: {{ .Values.resources.limits.gpu }}
+            memory: {{ .Values.resources.limits.memory }}
+
